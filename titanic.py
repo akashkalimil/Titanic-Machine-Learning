@@ -1,5 +1,6 @@
 import pandas as pandas
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 
 
 ########## Cleaning Titanic Training Data ###############################
@@ -40,10 +41,25 @@ titanic_test.loc[titanic_test["Embarked"] == "Q", "Embarked"] = 2
 predictors = ["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"]
 
 # Initialize the algorithm class
-alg = LogisticRegression(random_state=1)
+#alg = LogisticRegression(random_state=1)
+
+
+# Initialize our algorithm with the default paramters
+# n_estimators is the number of trees we want to make
+# min_samples_split is the minimum number of rows we need to make a split
+# min_samples_leaf is the minimum number of samples we can have at the place where a tree branch ends (the bottom points of the tree)
+alg = RandomForestClassifier(random_state=1, n_estimators=10, min_samples_split=2, min_samples_leaf=1)
+
+
+
 
 # Train the algorithm using all the training data
 alg.fit(titanic[predictors], titanic["Survived"])
+
+
+
+
+
 
 # Make predictions using the test set.
 predictions = alg.predict(titanic_test[predictors])
